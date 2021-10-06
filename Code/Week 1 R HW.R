@@ -41,4 +41,38 @@ newlist <- c("mean" = mean(logged_vec), "standard dev" = sd(logged_vec), "standa
 newlist
 
 
+# ADVANCED CODE
+
+#Creates seq of numbers from 15 to 100
+a_vector <- 15:100
+
+#Finds mean of numbers in sequence between 20 and 60
+a_mean <- mean(a_vector[a_vector>20 & a_vector<60])
+#Shows result
+a_mean
+
+#Finds sum of numbers in sequence above 48
+a_sum <- sum(aaa_vector[aaa_vector>48])
+#Shows result
+a_sum
+
+#function to return max and min of vector
+max_min<- function(x){
+  
+  #Sorts vector in descending order, finds first value
+  max_numb <- (sort(x, decreasing=T))[1]
+  
+  #Sorts vector in ascending order, finds first value
+  min_numb <- (sort(x))[1]
+  
+  #Creates vector containing max and min, named
+  m_m <- c("max" = max_numb, "min" = min_numb)
+  #returns vector
+  return(m_m)
+  
+}
+
+#Test on randomly generated sequence:
+max_min(my_vec)
+
 
