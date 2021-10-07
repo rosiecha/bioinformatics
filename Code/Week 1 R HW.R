@@ -75,4 +75,4 @@ max_min<- function(x){
 #Test on randomly generated sequence:
 max_min(my_vec)
 
-
+#Reverted back to advanced code
