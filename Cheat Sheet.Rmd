@@ -1,0 +1,250 @@
+---
+title: "Cheat sheet"
+author: "Rosie"
+date: "11/10/2021"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true    
+    number_sections: false
+---
+
+This R Markdown document contains all of the useful functions and insights I have learnt in this module so far.
+
+## Basics
+
+### Variables
+
+To assign a value to a variable, '\<-' is used. The shortcut 'Alt' & '-' can be used. To assign a value of 10 to a variable "a", the following code can be used:
+
+```{r variables}
+a <- 10
+a
+```
+
+An object can also be a piece of code. For example, defining h:
+
+```{r h}
+h <- (-6+(6^2-4*1*5)^(1/2))/(2*1)
+h
+```
+
+R will overwrite an object if you assign another object to the same name.
+
+There are various environments in which R can store variables. The objects above are saved into the Global Environment. Objects in the global environment are present until R is closed or until the memory is wiped.
+
+### Vectors
+
+R can deal with vectors containing multiple numeric values OR multiple character values. To create a vector, a function called "c" is used. E.g. to create a numerical vector:
+
+```{r vector}
+g <- c(1, 5, 4, 2)
+g
+```
+
+c() can also be used to create vectors containing other vectors, or to combine multiple vectors into a single larger vector. E.g?
+
+To access data in a vector we can use square brackets. The number in the brackets is a coordinate. E.g:
+
+```{r coordinate}
+g[3]
+```
+
+This will give the 3rd object in vector "g".
+
+We can perform arithmetic on all objects in a vector simultaneously. Non-integer values will only be displayed to 7 digits.
+
+We can also name the positions in a vector. To make a vector with specified names, we use:
+
+```{r name}
+my_vec <- c("a" = 1, "d" = 3, "b" = 2)
+my_vec
+
+```
+
+The first value defines the name of the position, the second defines the item at that position.
+
+To (re)name positions in an already existing vector, we can use:
+
+```{r rename}
+names(my_vec) <- c("x", "y", "z")
+my_vec
+
+```
+
+We can then retrieve an object from the vector using the name of the position:
+
+```{r retrieve}
+my_vec["y"]
+
+```
+
+The "" signifies a named position.
+
+### Factors
+
+Categorical data in a vector can be grouped using factors instead.
+
+For example, the vector below contains the same name multiple times:
+
+```{r classnames}
+class_names <- c("James", "John", "Mary", "Linda", "Susan", "Mary", "Charles", "John", "James")
+```
+
+To group these, the vector can be converted to a factor using as.factor():
+
+```{r factors}
+class_names <- as.factor(class_names)
+class_names
+
+```
+
+When viewed, this will display all of the items in the list, plus the "levels": the unique items in the list.
+
+To retrieve only the levels:
+
+```{r levels}
+levels(class_names)
+```
+
+Gives the unique values of the categories in the data, sorted in alphabetical order.
+
+### Logic Vectors
+
+Vectors can also contain logic arguments (True/False) instead of numbers or character strings. Logic vectors are a subset of character vectors, and so require "" around the True or False statement.
+
+Logic operators can be used on vectors (numerical or character) to produce a logic vector, e.g:
+
+```{r logic}
+x <- runif(n = 10, min = 0, max = 20)
+x
+x > 5
+```
+
+This gives list of TRUEs and FALSEs corresponding to objects in the first vector.
+
+A list of logical operators:
+
+| Logical operator      | Code   | Example                       |
+|:----------------------|:-------|:------------------------------|
+| Equal to              | `==`   | `c(1:5) == 2`                 |
+| Not equal to          | `!=`   | `c(1:5) == 3`                 |
+| Less than             | `<`    | `4 < 5`                       |
+| More than             | `>`    | `3 > 5`                       |
+| Less than or equal to | `<=`   | `c(1:5) <= 3`                 |
+| More than or equal to | `>=`   | `c(1:5) >= 2`                 |
+| Or                    | `|`    | `x <- c(1:5) ; x > 3 | x < 2` |
+| Within                | `%in%` | `1:10 %in% c(1,3,5,9)`        |
+
+To return only the numbers from a vector which are true when tested by an operator:
+
+```{r}
+x[x > 5]
+```
+
+## Functions
+
+### Table of functions
+
++--------------------+--------------------------------------------------------------------------------------------------+
+| Code               | Result                                                                                           |
++====================+==================================================================================================+
+| c()                | Creates a vector                                                                                 |
++--------------------+--------------------------------------------------------------------------------------------------+
+| length()           | Gives the number of objects in a vector                                                          |
++--------------------+--------------------------------------------------------------------------------------------------+
+| sort()             | Sorts the objects in a numerical vector from smallest to largest                                 |
++--------------------+--------------------------------------------------------------------------------------------------+
+| names()            | Retrieve the names of the positions in a vector                                                  |
++--------------------+--------------------------------------------------------------------------------------------------+
+| as.factor()        | Converts a vector into a factor                                                                  |
++--------------------+--------------------------------------------------------------------------------------------------+
+| levels()           | Gives the levels (unique values) in a factor                                                     |
++--------------------+--------------------------------------------------------------------------------------------------+
+| runif(n, min, max) | Generate a vector of random numbers                                                              |
++--------------------+--------------------------------------------------------------------------------------------------+
+| is.numeric()       | Check if a vector is composed of numeric objects                                                 |
++--------------------+--------------------------------------------------------------------------------------------------+
+| is.character()     | Check if a vector is composed of character objects                                               |
++--------------------+--------------------------------------------------------------------------------------------------+
+| is.logical()       | Check if a vector is composed of logical arguments                                               |
++--------------------+--------------------------------------------------------------------------------------------------+
+| sum()              | Gives the sum of a numeric vector                                                                |
++--------------------+--------------------------------------------------------------------------------------------------+
+| mean()             | Gives the mean of a numeric vector. To ignore NA values, use argument na.rm = T                  |
++--------------------+--------------------------------------------------------------------------------------------------+
+| sqrt()             | Gives the square roots of the values in a numeric vector                                         |
++--------------------+--------------------------------------------------------------------------------------------------+
+| round()            | Rounds a numeric vector to integers.                                                             |
+|                    |                                                                                                  |
+|                    | To round to specific no. of decimal places, use argument digits = x                              |
++--------------------+--------------------------------------------------------------------------------------------------+
+| ?"function_name"() | "?" in front of a function will bring up the associated help file                                |
++--------------------+--------------------------------------------------------------------------------------------------+
+| function(){        | Creates a function. Must be assigned to an object, e.g.                                          |
+|                    |                                                                                                  |
+| }                  | a \<- function(x)                                                                                |
+|                    |                                                                                                  |
+|                    | Put instructions inside the {} brackets to specify what to do with x.                            |
++--------------------+--------------------------------------------------------------------------------------------------+
+| return()           | Returns variables in () to the global environment from inside a function, and ends the function. |
++--------------------+--------------------------------------------------------------------------------------------------+
+
+## R Markdown
+
+Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents.
+
+When you click the \*\*Knit\*\* button a document is generated that contains content of the file plus the output of any embedded R code chunks.
+
+### Embedding code
+
+You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+The `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+To add a contents list at the start of the document, the following code can be used:
+
+```{r eval = FALSE}
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true    
+    number_sections: true
+
+```
+
+This is inserted at the top of the markdown file. The toc_depth can be adjusted to alter the number of subsections in each section.
+
+Set-up, tidyverse?
+
+## GitHub
+
+GitHub is an online repository which allows the online saving and sharing of code, plus easy version-control. This repository is stored [here](https://github.com/rosiecha/bioinformatics). The underlying code behind GitHub is Git; using GitHub means we do not need to know or understand Git command.
+
+### Creating a repository
+
+A new repository can be made easily on the GitHub website after creating a free account. To import a repository to R Studio, go to file \> new project... \> version control \> Git. Then copy and paste in the URL of the new repository. You can change where it is stored on your PC, then hit 'create project'. You will then need to log in to GitHub.
+
+When local changes are made to a project, to upload these changes to the online repository, the changes must be **committed** and then **pushed** using the appropriate buttons in the Git tab on the right-hand side of R Studio. It is important to add a commit message to describe the changes that have been made since the last commit.
+
+To retrieve the newest version of a project to be viewed and worked on in R Studio, the **pull** command is used.
+
+### Version control
+
+?
+
+### Branching
+
+?
