@@ -1,0 +1,59 @@
+---
+title: "Week 3 homework"
+author: "Rosie"
+date: "13/10/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Tidying population data - Homework
+
+First, the tidyverse and vroom packages are loaded:
+
+```{r packages, message=FALSE}
+library("tidyverse")
+library("vroom")
+
+```
+
+To load in the data for the 2 populations fom GitHub, the following code is used:
+
+```{r data_import, message=FALSE}
+pop_1 <- vroom("https://raw.githubusercontent.com/rosiecha/Bioinformatics_data/master/Workshop%203/to_sort_pop_1.csv")
+pop_2 <- vroom("https://raw.githubusercontent.com/rosiecha/Bioinformatics_data/master/Workshop%203/to_sort_pop_2.csv")
+
+```
+
+The data from the two populations is then merged into one tibble:
+
+```{r merge, message=FALSE}
+pop_merged <- left_join(pop_1,pop_2)
+
+```
+
+To reshape the data.frame from wide to long:
+
+```{r long, message=FALSE}
+pop_long <- pop_merged %>%
+  pivot_longer(cols = -c(species:tertiary_threat),
+               #data.frame is pivoted around these columns
+               names_to = c("population", "date"),
+               #two columns are made for the "names" data
+               values_to = "abundance",
+               #values are inserted into new "abundance" column
+               names_pattern =  "pop_(.*)_(.*)"
+               #names_pattern is used to split data into the two new population and abundance columns
+               )
+```
+
+The names_pattern argument also splits the new column into population and date columns using the repeated pattern of the data.
+
+This gives the data in this structure:
+
+```{r data, echo = FALSE}
+pop_long
+
+```
