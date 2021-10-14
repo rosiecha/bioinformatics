@@ -18,12 +18,12 @@ This repository contains all of the data I need for this R module, as well as th
 
 ## Data
 
-The data folder contains data for workshops 3, 5, 6 and 8.
-
-### Workshop 3:
-
-?
+The data folder contains data for workshops 3, 5, 6 and 8, taken from Chris Clement's GitHub. This data can also be accessed [here](https://github.com/chrit88/Bioinformatics_data).
 
 ## Code
 
-The code file contains the analyses and simulations folders, as well as a folder containing completed homework.
+The code file contains the analyses and simulations folders, as well as a folder containing work from the workshops so far.
+
+## Other files:
+
+Alongside this README file, a cheat sheet R Markdown file can be found in this repository. This contains all of the useful functions and insights I have learnt in this module so far. This can also be found [here](https://github.com/rosiecha/bioinformatics/blob/main/Cheat%20Sheet.Rmd).

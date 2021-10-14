@@ -43,7 +43,7 @@ g <- c(1, 5, 4, 2)
 g
 ```
 
-c() can also be used to create vectors containing other vectors, or to combine multiple vectors into a single larger vector. E.g?
+c() can also be used to create vectors containing other vectors, or to combine multiple vectors into a single larger vector.
 
 To access data in a vector we can use square brackets. The number in the brackets is a coordinate. E.g:
 
@@ -211,7 +211,7 @@ You can also embed plots, for example:
 plot(pressure)
 ```
 
-The `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+The `echo = FALSE` parameter can be added to a code chunk to prevent printing of the R code that generates any output plot or results.
 
 To add a contents list at the start of the document, the following code can be used:
 
@@ -227,8 +227,6 @@ output:
 
 This is inserted at the top of the markdown file. The toc_depth can be adjusted to alter the number of subsections in each section.
 
-Set-up, tidyverse?
-
 ## GitHub
 
 GitHub is an online repository which allows the online saving and sharing of code, plus easy version-control. This repository is stored [here](https://github.com/rosiecha/bioinformatics). The underlying code behind GitHub is Git; using GitHub means we do not need to know or understand Git command.
@@ -241,10 +239,4 @@ When local changes are made to a project, to upload these changes to the online 
 
 To retrieve the newest version of a project to be viewed and worked on in R Studio, the **pull** command is used.
 
-### Version control
-
-?
-
-### Branching
-
-?
+GitHub can be used for version control and branching of repositories.
