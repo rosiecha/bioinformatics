@@ -1,0 +1,111 @@
+---
+title: "4 Homework md"
+author: "Rosie"
+date: "26/10/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, include = TRUE)
+```
+
+```{r data_tidying, include = FALSE}
+
+#Loading packages
+library("tidyverse")
+library("vroom")
+
+#Read in the data
+wide_spp.1 <- vroom("https://raw.githubusercontent.com/chrit88/Bioinformatics_data/master/Workshop%203/to_sort_pop_1.csv")
+wide_spp.2 <- vroom("https://raw.githubusercontent.com/chrit88/Bioinformatics_data/master/Workshop%203/to_sort_pop_2.csv") 
+
+#Reshape + merge data
+#Separate names into population and date
+long_spp <- full_join(wide_spp.1, wide_spp.2) %>%
+  pivot_longer(cols = -c(species:tertiary_threat),
+               names_to = c("population", "date"),
+               names_pattern = "pop_(.*)_(.*)",
+               values_drop_na = T, 
+               values_to = "abundance")
+
+#correcting the date format
+long_spp$date.corrected <- as.Date(long_spp$date, "%Y-%d-%m")
+
+```
+
+Once the data had been tidied, the following plots were produced:
+
+Plot 1: a timeseries of average abundance per population, divided by primary threat.
+
+```{r threatmeanspop, include = FALSE}
+pop_threat_means <- long_spp %>% 
+  group_by(primary_threat, date.corrected, population) %>% 
+  summarise(abundance = mean(abundance, na.rm = TRUE))
+
+```
+
+```{r plot1}
+pop_threat_plot <- ggplot(na.omit(pop_threat_means), aes(x = date.corrected, y = abundance)) 
+
+pop_threat_plot + geom_line(aes(col=population)) + 
+  facet_wrap(. ~ primary_threat)+
+  xlab("Date - Year") +
+  ylab("Abundance")
+
+```
+
+Plot 1 was created using means calculated from each species' absolute abundances. To normalise this data, relative abundance within each species was calculated.
+
+In plot 2, relative abundance is plotted against time for each primary threat:
+
+```{r rel_abundance, include = FALSE}
+#Finding max abundance of each species
+max_abundance <- long_spp %>%
+  group_by(species) %>%
+  summarise(max_abundance = max(abundance))
+
+#Making new df containing max abundances
+max_ab_df <- full_join(long_spp, max_abundance, by = "species")
+
+#making column of abundance / max abundance to give relative abundance
+max_ab_df$rel_abundance <- max_ab_df$abundance / max_ab_df$max_abundance
+
+#finds mean relative abundance of species by primary threat over time
+pop_threat_means <-max_ab_df %>% 
+  group_by(primary_threat, date.corrected, population) %>% 
+  summarise(rel_abundance = mean(rel_abundance))
+
+
+
+```
+
+```{r plot3}
+#plot data
+pop_threat_plot <- ggplot(na.omit(pop_threat_means), aes(x = date.corrected, y = rel_abundance)) 
+#plot format
+pop_threat_plot + geom_line(aes(col=population)) + 
+  facet_wrap(. ~ primary_threat) +
+  xlab("Date - Year") +
+  ylab("Relative Abundance")
+```
+
+The above data is also plotted with data from both populations combined in plot 3:
+
+```{r rel_ab_avg_pop, include = FALSE}
+pop_threat_means <-max_ab_df %>% 
+  group_by(primary_threat, date.corrected) %>% 
+  summarise(rel_abundance = mean(rel_abundance))
+
+```
+
+```{r plot3}
+
+#plot data
+pop_threat_plot <- ggplot(na.omit(pop_threat_means), aes(x = date.corrected, y = rel_abundance)) 
+#plot format
+pop_threat_plot + geom_line(aes(col=primary_threat)) + 
+  facet_wrap(. ~ primary_threat) +
+  xlab("Date - Year") +
+  ylab("Relative Abundance")
+
+```
